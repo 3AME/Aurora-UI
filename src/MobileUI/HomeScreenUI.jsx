@@ -1,15 +1,43 @@
 import React from 'react';
-import styled, { css, keyframes } from 'styled-components';
-
-// --- Animations (用于图标发光效果) ---
-const glow = keyframes`
-    0%, 100% { text-shadow: 0 0 5px rgba(255,255,255,0.8), 0 0 10px rgba(122,0,255,0.6); }
-    50% { text-shadow: 0 0 10px rgba(255,255,255,1), 0 0 20px rgba(218,0,255,0.8); }
-`;
+import styled from 'styled-components';
 
 // --- Styled Components ---
 
-const HomeScreenWrapper = styled.div`
+const DEVICE_CONFIG = {
+    phone: {
+        gridCols: 4,
+        iconSize: '45px',
+        iconFontSize: '20px',
+        dockSize: '50px',
+        labelFontSize: '0.8em',
+        gridGap: '1.5em 0.5em',
+        dockItemSize: '50px',
+    },
+    tablet: {
+        gridCols: 6,
+        iconSize: '65px',
+        iconFontSize: '30px',
+        dockSize: '80px',
+        labelFontSize: '1em',
+        gridGap: '2em 1em',
+        dockItemSize: '75px',
+    },
+    smartwatch: {
+        gridCols: 2,
+        iconSize: '40px',
+        iconFontSize: '18px',
+        dockSize: '0px', // without dock
+        labelFontSize: '0.7em',
+        gridGap: '1em 0.5em',
+        dockItemSize: '0px',
+    }
+}
+const getConfig = (props) => {
+    const deviceType = props.$deviceType || 'phone';
+    return DEVICE_CONFIG[deviceType] || DEVICE_CONFIG.phone;
+};
+
+const HomeWrapper = styled.div`
     position: absolute;
     top: 0;
     left: 0;
@@ -17,216 +45,170 @@ const HomeScreenWrapper = styled.div`
     height: 100%;
     z-index: 90; 
     
-    background: transparent; 
-    
-    font-size: 18px; 
-    @media (max-width: 400px) {
-        font-size: 4.5vw;
-    }
-    
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; 
-    padding: 0; 
+    justify-content: space-between; 
+    align-content: center;
+    padding: 0;
 `;
 
-// --- 状态栏 (TopBar) ---
+const AppGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(${props => getConfig(props).gridCols}, 1fr);
+    gap: ${props => getConfig(props).gridGap};
+    justify-content: center;
+    align-content: center;
+    padding-top: 1.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: ${props => getConfig(props).dockSize !== '0px' ? '2em' : '1em'};
+    flex-grow: ${props => getConfig(props).dockSize === '0px' ? 1 : 0};;
+    z-index: 95; 
+`;
 
-const TopBar = styled.div`
+const AppIconWrapper = styled.div`
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 0.8em 1em 0.5em; 
     color: white;
-    font-size: 0.7em; 
-    font-weight: 500;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-    z-index: 10; 
-`;
-
-// --- 应用图标网格 (Icon Grid) ---
-
-const IconGrid = styled.div`
-    display: grid; 
-    /* 关键修改：固定为 3 列 */
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 1.5em 1em; /* 调整间距 */
-    padding: 1em; 
-    flex-grow: 1; 
-    overflow-y: auto; 
-    
-    align-content: flex-start;
-    justify-items: center; 
-    
-    padding-bottom: 7em; 
-`;
-
-const AppIcon = styled.div`
-    max-width: 6em; 
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    font-size: 14px;
     cursor: pointer;
-    text-align: center;
-    
-    .icon-image {
-        width: 3em; 
-        height: 3em;
-        /* 关键：移除背景色 */
-        background: transparent; 
-        border-radius: 20%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.8em; 
-        color: white; 
-        box-shadow: none; 
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); /* 增加文字阴影，提高在极光背景上的可读性 */
+    transition: transform 0.1s;
 
-        /* 关键：添加极光发光效果 */
-        text-shadow: 0 0 5px rgba(255,255,255,0.5), 0 0 10px ${props => props.$glowColor || 'rgba(122,0,255,0.4)'};
-        transition: text-shadow 0.3s ease;
-
-        &:hover {
-            animation: ${glow} 1.5s infinite alternate; 
-        }
-    }
-    
-    .icon-label {
-        margin-top: 0.5em;
-        font-size: 0.7em;
-        color: white;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-        line-height: 1.1;
-        max-width: 100%; 
-        white-space: normal;
-        word-break: break-word;
+    &:active {
+        transform: scale(0.95);
     }
 `;
 
-// --- 底部 Dock 栏 ---
+const Icon = styled.div`
+    width: ${props => getConfig(props).iconSize};
+    height: ${props => getConfig(props).iconSize};
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px); 
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-size: ${props => getConfig(props).iconFontSize};
+    margin-bottom: 0.3em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+`;
 
-const Dock = styled.div`
-    position: absolute; 
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%); 
+const AppLabel = styled.span`
+    font-size: ${props => getConfig(props).labelFontSize};
+    font-size: 0.8em;
+    font-weight: 500;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+`;
 
-    width: calc(100% - 2em); 
-    max-width: 90%; 
-    height: 4.5em; 
-    /* 关键：半透明模糊效果 */
-    background: rgba(255, 255, 255, 0.15); 
-    backdrop-filter: blur(15px); 
-    border-radius: 2em;
-    margin: 0 auto 1em; 
-    padding: 0.5em;
+// --- 新增：Dock 栏样式 ---
+
+const DockContainer = styled.div`
+    /* hide dock if dockSize is 0px = smartwatch */
+    display: ${props => getConfig(props).dockSize !== '0px' ? 'flex' : 'none'};
+    /* 关键 1: 磨砂玻璃效果 */
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(20px); /* 强大的模糊效果 */
+    
+    /* 关键 2: 布局和定位 */
+    width: 90%;
+    margin: 0;
+    height: ${props => getConfig(props).dockSize};
+    padding: ${props => getConfig(props).dockSize !== '0px' ? '12px 15px' : '0'};
+    align-self: center; /* 居中对齐 */
+    // padding: 12px 15px;
+    border-radius: 25px; /* 圆角边框 */
     
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 10; 
+    
+    /* 关键 3: 阴影和层级 */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.2); 
+    z-index: 100; /* 确保它在所有 Home Screen 元素之上 */
 `;
 
-const DockIcon = styled(AppIcon)`
-    width: 3em; 
-    height: 3em;
-    margin: 0; 
+const DockItem = styled(AppIconWrapper)`
+    width: ${props => getConfig(props).dockItemSize};
+    height: ${props => getConfig(props).dockItemSize};
+  
+    text-shadow: none; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
-    .icon-image {
+    ${Icon} {
         width: 100%;
         height: 100%;
-        border-radius: 20%;
-        font-size: 1.5em; 
-        /* 关键：添加极光发光效果 */
-        text-shadow: 0 0 5px rgba(255,255,255,0.5), 0 0 10px ${props => props.$glowColor || 'rgba(122,0,255,0.4)'};
-        transition: text-shadow 0.3s ease;
-
-        &:hover {
-            animation: ${glow} 1.5s infinite alternate; 
-        }
-    }
-    
-    .icon-label {
-        display: none; 
+        background: transparent; /* Dock 栏图标不需要背景色 */
+        backdrop-filter: none; /* 移除图标内部的模糊 */
+        box-shadow: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: ${props => getConfig(props).iconFontSize}; 
     }
 `;
+
+// --- 应用数据 (拆分常用应用到 Dock) ---
+
+// Dock 栏应用 (最常用的 4 个)
+const dockApps = [
+    { id: 'phone', icon: '📞', label: 'Phone' },
+    { id: 'messages', icon: '💬', label: 'Messages' },
+    { id: 'browser', icon: '🌐', label: 'Browser' },
+    { id: 'camera', icon: '📷', label: 'Camera' },
+];
+
+// 主屏幕应用 (其余的)
+const gridApps = [
+    { id: 'settings', icon: '⚙️', label: 'Settings' },
+    { id: 'maps', icon: '🗺️', label: 'Maps' },
+    { id: 'email', icon: '📧', label: 'Email' },
+    { id: 'music', icon: '🎶', label: 'Music' },
+    { id: 'photos', icon: '🖼️', label: 'Photos' },
+    { id: 'weather', icon: '☁️', label: 'Weather' },
+];
+
 
 // --- Component Logic ---
 
-const AppItem = ({ label, icon, glowColor, onClick, isDock = false }) => {
-    const Component = isDock ? DockIcon : AppIcon;
-    
-    // 使用 $glowColor 传递瞬时 Prop
-    return (
-        <Component $glowColor={glowColor} onClick={onClick}>
-            <div className="icon-image">{icon}</div>
-            {!isDock && <div className="icon-label">{label}</div>}
-        </Component>
-    );
-};
+const HomeScreenUI = ({ onOpenApp, deviceType = 'phone' }) => {
 
+    // 渲染 App 图标的通用函数
+    // const config = DEVICE_CONFIG[deviceType] || DEVICE_CONFIG.phone;
+    const renderAppIcon = (app, isDock = false) => {
+        const IconComponent = isDock ? DockItem : AppIconWrapper;
 
-const HomeScreenUI = ({ onOpenApp }) => {
-    // 关键：更新图标和极光颜色
-    const gridApps = [
-        { label: "Messages", icon: "✉️", glowColor: "#007bff", id: "messages" }, // 蓝色
-        { label: "Camera", icon: "📸", glowColor: "#FFC107", id: "camera" },    // 黄色
-        { label: "Aurora", icon: "✨", glowColor: "#ff00ff", id: "aurora" },    // 品红色
-        { label: "Settings", icon: "⚙️", glowColor: "#bbbbbb", id: "settings" },// 灰色
-        { label: "Photos", icon: "🌄", glowColor: "#8A2BE2", id: "photos" },    // 紫罗兰色
-        { label: "Music", icon: "🎵", glowColor: "#FF1493", id: "music" },     // 深粉色
-        { label: "Weather", icon: "☁️", glowColor: "#00CED1", id: "weather" },   // 深青色
-        { label: "Notes", icon: "🗒️", glowColor: "#ffff00", id: "notes" },     // 黄色
-        { label: "Clock", icon: "⏰", glowColor: "#00CED1", id: "clock" },     // 深青色
-        { label: "Calendar", icon: "🗓️", glowColor: "#ffff00", id: "calendar" },// 黄色
-    ];
-    
-    const dockApps = [
-        { label: "Phone", icon: "📞", glowColor: "#28a745", id: "phone" },     // 绿色
-        { label: "Mail", icon: "📧", glowColor: "#007bff", id: "mail" },      // 蓝色
-        { label: "Browser", icon: "🌐", glowColor: "#fd7e14", id: "browser" }, // 橙色
-        { label: "Maps", icon: "📍", glowColor: "#dc3545", id: "maps" },      // 红色
-    ];
-
-
-    const currentTime = new Date();
-    const timeString = currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-    
+        return (
+            <IconComponent
+                key={app.id}
+                onClick={() => onOpenApp(app.id)}
+                $deviceType={deviceType}
+            >
+                <Icon $deviceType={deviceType}>{app.icon}</Icon>
+                {!isDock && <AppLabel $deviceType={deviceType}>{app.label}</AppLabel>}
+            </IconComponent>
+        );
+    };
 
     return (
-        <HomeScreenWrapper>
-            {/* 1. 状态栏 */}
-            <TopBar>
-                <div>Carrier</div>
-                <div>{timeString}</div>
-                <div>📶🔋</div>
-            </TopBar>
-            
-            {/* 2. 应用图标网格 */}
-            <IconGrid>
-                {gridApps.map(app => (
-                    <AppItem 
-                        key={app.id} 
-                        {...app} 
-                        onClick={() => onOpenApp(app.id)} 
-                    />
-                ))}
-            </IconGrid>
-            
-            {/* 3. 底部 Dock 栏 */}
-            <Dock>
-                {dockApps.map(app => (
-                    <AppItem 
-                        key={app.id} 
-                        {...app} 
-                        isDock={true}
-                        onClick={() => onOpenApp(app.id)} 
-                    />
-                ))}
-            </Dock>
-            
-        </HomeScreenWrapper>
+        <HomeWrapper>
+
+            <AppGrid $deviceType={deviceType}>
+                {gridApps.map(app => renderAppIcon(app, false))}
+            </AppGrid>
+
+            <DockContainer $deviceType={deviceType}>
+                {dockApps.map(app => renderAppIcon(app, true))}
+            </DockContainer>
+
+        </HomeWrapper>
     );
 };
 

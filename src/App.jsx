@@ -5,11 +5,11 @@ import MobileContainer from './MobileUI/MobileContainer';
 import styled from 'styled-components';
 
 // 定义设备类型常量
-const DEVICE_TYPES = {
-    PHONE: 'phone',
-    TABLET: 'tablet',
-    WATCH: 'smartwatch'
-};
+// const DEVICE_TYPES = {
+//     PHONE: 'phone',
+//     TABLET: 'tablet',
+//     WATCH: 'smartwatch'
+// };
 
 // --- Device Selector UI ---
 const SelectorWrapper = styled.div`
@@ -46,7 +46,7 @@ const SelectButton = styled.button`
 
 
 function App() {
-    const [currentDevice, setCurrentDevice] = useState(DEVICE_TYPES.PHONE);
+    // const [currentDevice, setCurrentDevice] = useState(DEVICE_TYPES.PHONE);
 
     return (
         <div className="App">
@@ -55,7 +55,7 @@ function App() {
             <GlobalBackground />
             
             {/* 2. 设备选择按钮 */}
-            <SelectorWrapper>
+            {/* <SelectorWrapper>
                 <SelectButton 
                     $active={currentDevice === DEVICE_TYPES.PHONE}
                     onClick={() => setCurrentDevice(DEVICE_TYPES.PHONE)}
@@ -74,13 +74,13 @@ function App() {
                 >
                     ⌚ Smartwatch
                 </SelectButton>
-            </SelectorWrapper>
+            </SelectorWrapper> */}
             
             {/* 3. 手机/设备 Mockup 容器 - 传入当前设备类型 */}
-            <MobileMockup deviceType={currentDevice}>
+            {/* <MobileMockup deviceType={currentDevice}> */}
                 {/* 4. 手机内部逻辑 (Lock Screen / Home Screen) */}
                 <MobileContainer /> 
-            </MobileMockup>
+            {/* </MobileMockup> */}
             
         </div>
     );
