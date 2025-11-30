@@ -8,8 +8,27 @@ const gradientFlow = keyframes`
     100% { background-position: 0% 50%; }
 `;
 
+const AURORA_COLORS = {
+    LOW:    'linear-gradient(-45deg, #7a00ff, #da00ff, #00ccff, #ff66b2)', 
+    MEDIUM: 'linear-gradient(-45deg, #FF6F00, #FF3D00, #F50057, #C51162)', 
+    HIGH:   'linear-gradient(-45deg, #00C853, #1DE9B6, #2962FF, #00B0FF)',
+};
+
 // --- Styled Components ---
 
+const getAuroraGradient = (kpIndex) => {
+    // {console.log(kpIndex)}
+    if (kpIndex >= 6) {
+        //    {console.log("Rendering AuroraEffect", 'high')}
+        return AURORA_COLORS.HIGH;
+    } else if (kpIndex >= 3) {
+        //    {console.log("Rendering AuroraEffect", 'medium')}
+        return AURORA_COLORS.MEDIUM;
+    } else {
+        //    {console.log("Rendering AuroraEffect", 'low')}
+        return AURORA_COLORS.LOW;
+    }
+}
 const AuroraContainer = styled.div`
     position: absolute;
     top: 0;
@@ -18,21 +37,22 @@ const AuroraContainer = styled.div`
     height: 100%;
     overflow: hidden;
     z-index: 1; 
-
-    /* 关键：使用全局极光渐变样式 */
-    background: linear-gradient(-45deg, #7a00ff, #da00ff, #00ccff, #ff66b2); /* 设定极光四色渐变 */
+    /*  aurora background changed by kp index*/
+    background: ${props => getAuroraGradient(props.kpIndex)};
     background-size: 400% 400%; /* 允许动画大幅度移动背景 */
     
-    /* 关键：应用流动动画 */
+
     animation: ${gradientFlow} 15s ease infinite;
 `;
 
 // --- 组件逻辑 (移除 Blobs) ---
 
-const AuroraEffect = ({ children }) => {
+const AuroraEffect = ({ children, kpIndex}) => {
+    // console.log("AuroraEffect rendered with kpIndex:", kpIndex);
     return (
-        <AuroraContainer>
-            {/* 渲染所有子组件（HomeScreenUI, LockScreenUI 等） */}
+        <AuroraContainer kpIndex={kpIndex}>
+            
+            {/* render（HomeScreenUI, LockScreenUI 等） */}
             {children}
         </AuroraContainer>
     );

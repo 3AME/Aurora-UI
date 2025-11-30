@@ -7,6 +7,7 @@ import LockScreenUI from './LockScreenUI';
 import HomeScreenUI from './HomeScreenUI';
 import IncomingCallUI from './IncomingCallUI';
 import AuroraEffect from './AuroraEffect'; // 确保 AuroraEffect 已导入
+// import GyroEffect from './GyroEffect';
 
 // 屏幕状态枚举
 const SCREEN = {
@@ -127,11 +128,13 @@ const MobileContainer = () => {
 
 
     // --- 渲染逻辑 ---
-
+//    const test = 2;
     const renderScreenContent = () => {
         // 渲染 AuroraEffect 作为所有 UI 的背景层
         return (
             <AuroraEffect kpIndex={kpIndex}>
+                {console.log("Rendering GyroEffect with kpIndex:", test)}
+            {/* <GyroEffect> */}
 
                 {/* 1. App View UI (应用内视图) - 暂未实现完整代码 */}
                 {currentScreen === SCREEN.APP_VIEW && (
@@ -166,8 +169,8 @@ const MobileContainer = () => {
                     <HomeScreenUI onOpenApp={handleOpenApp} />
                     // 实际项目中 CallActiveUI 将代替 HomeScreenUI
                 )}
-
-            </AuroraEffect>
+            {/* </GyroEffect> */}
+             </AuroraEffect>
         );
     };
 
