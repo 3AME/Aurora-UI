@@ -779,4 +779,4 @@ Please change the parent <Route path="${H}"> to <Route path="${H==="/"?"*":`${H}
     &:hover {
         background: ${u=>u.$active?"#eee":"rgba(255, 255, 255, 0.1)"};
     }
-`;function zb(){return K.jsx(M1,{children:K.jsxs(c1,{basename:"/Aurora-UI/",children:[K.jsx(Vf,{path:"/",element:K.jsx(hb,{})}),K.jsx(Vf,{path:"/gyro",element:K.jsx(Eb,{})})]})})}pv.createRoot(document.getElementById("root")).render(K.jsx(C.StrictMode,{children:K.jsx(zb,{})}));
+`;function zb(){return K.jsx(M1,{basename:"/Aurora-UI/",children:K.jsxs(c1,{children:[K.jsx(Vf,{path:"/",element:K.jsx(hb,{})}),K.jsx(Vf,{path:"/gyro",element:K.jsx(Eb,{})})]})})}pv.createRoot(document.getElementById("root")).render(K.jsx(C.StrictMode,{children:K.jsx(zb,{})}));
