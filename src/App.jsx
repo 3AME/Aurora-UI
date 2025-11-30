@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import MobileMockup from './MobileUI/MobileMockup';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GlobalBackground from './MobileUI/GlobalBackground';
-import MobileContainer from './MobileUI/MobileContainer'; 
+import MobileContainer from './MobileUI/MobileContainer';
 import styled from 'styled-components';
+import GyroBackground from './MobileUI/GyroBackground';
+import GyroPage from './MobileUI/GyroPage';
 
 // 定义设备类型常量
 // const DEVICE_TYPES = {
@@ -49,40 +52,58 @@ function App() {
     // const [currentDevice, setCurrentDevice] = useState(DEVICE_TYPES.PHONE);
 
     return (
-        <div className="App">
-            
-            {/* 1. 全局背景 */}
-            <GlobalBackground />
-            
-            {/* 2. 设备选择按钮 */}
-            {/* <SelectorWrapper>
-                <SelectButton 
-                    $active={currentDevice === DEVICE_TYPES.PHONE}
-                    onClick={() => setCurrentDevice(DEVICE_TYPES.PHONE)}
-                >
-                    📱 Phone
-                </SelectButton>
-                <SelectButton 
-                    $active={currentDevice === DEVICE_TYPES.TABLET}
-                    onClick={() => setCurrentDevice(DEVICE_TYPES.TABLET)}
-                >
-                    💻 Tablet
-                </SelectButton>
-                <SelectButton 
-                    $active={currentDevice === DEVICE_TYPES.WATCH}
-                    onClick={() => setCurrentDevice(DEVICE_TYPES.WATCH)}
-                >
-                    ⌚ Smartwatch
-                </SelectButton>
-            </SelectorWrapper> */}
-            
-            {/* 3. 手机/设备 Mockup 容器 - 传入当前设备类型 */}
-            {/* <MobileMockup deviceType={currentDevice}> */}
-                {/* 4. 手机内部逻辑 (Lock Screen / Home Screen) */}
-                <MobileContainer /> 
-            {/* </MobileMockup> */}
-            
-        </div>
+        // <div className="App">
+
+        //     {/* 1. 全局背景 */}
+        //     <GyroBackground inputMode="gyro" />
+        //     {/* <GlobalBackground /> */}
+
+        //     {/* 2. 设备选择按钮 */}
+        //     {/* <SelectorWrapper>
+        //         <SelectButton 
+        //             $active={currentDevice === DEVICE_TYPES.PHONE}
+        //             onClick={() => setCurrentDevice(DEVICE_TYPES.PHONE)}
+        //         >
+        //             📱 Phone
+        //         </SelectButton>
+        //         <SelectButton 
+        //             $active={currentDevice === DEVICE_TYPES.TABLET}
+        //             onClick={() => setCurrentDevice(DEVICE_TYPES.TABLET)}
+        //         >
+        //             💻 Tablet
+        //         </SelectButton>
+        //         <SelectButton 
+        //             $active={currentDevice === DEVICE_TYPES.WATCH}
+        //             onClick={() => setCurrentDevice(DEVICE_TYPES.WATCH)}
+        //         >
+        //             ⌚ Smartwatch
+        //         </SelectButton>
+        //     </SelectorWrapper> */}
+
+        //     {/* 3. 手机/设备 Mockup 容器 - 传入当前设备类型 */}
+        //     {/* <MobileMockup deviceType={currentDevice}> */}
+        //         {/* 4. 手机内部逻辑 (Lock Screen / Home Screen) */}
+        //         <MobileContainer /> 
+        //     {/* </MobileMockup> */}
+
+        // </div>
+        <Router>
+
+            <Routes>
+                {/* 默认路径显示 MobileContainer */}
+                <Route path="/" element={<MobileContainer />} />
+                {/* GyroPage 应该是一个独立的路由 */}
+                <Route path="/gyro" element={<GyroPage />} />
+
+                {/* 如果需要 MobileContainer 在非 /gyro 路由下渲染 */}
+                {/* 另一种常见做法是：
+        <Route path="/" element={<MobileContainer />}>
+            <Route path="/gyro" element={<GyroPage />} /> 
+        </Route>
+        但对于全屏切换，独立 Route 更简单。
+        */}
+            </Routes>
+        </Router>
     );
 }
 
