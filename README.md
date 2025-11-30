@@ -1,4 +1,58 @@
+🚀 Aurora-UI
+
+🌟 Project Overview
+
+Aurora-UI is a modern front-end application built with React and Vite. Its main purpose is to demonstrate how to combine JavaScript's Device Orientation API and CSS 3D transforms to create an immersive aurora interaction effect.
+
+
+✨ Technology Stack
+
+Framework: React
+
+Build Tool: Vite
+
+Styling: Tailwind CSS
+
+Core Feature: Device Orientation API (JavaScript)
+
+📦 Local Installation and Running
+
+Please ensure you have Node.js and npm installed in your local environment.
+
+Install Dependencies:
+Run the following command in the project root directory to install all required packages.
+
+`npm install`
+
+
+
+
+Start Development Server:
+Run this command to start the Vite development server.
+
+`npm run dev`
+
+
+
+
+The project typically starts at http://localhost:5173. 
+
+🛠️ Common Troubleshooting
+
+'react-scripts' command not found:
+
+Reason: Your project uses Vite, not Create React App, but the build script in package.json might be incorrectly set to use react-scripts command.
+
+Solution: Ensure your package.json's build script is corrected to "build": "vite build".
+
+Video/Static Resources fail to load locally:
+
+Reason: Incorrect file reference paths, or resources are not placed in the correct location.
+
+Solution: Ensure all static assets (like videos, images) are located in the public folder in the project root, and that you reference them in your React code using a root path (e.g., src="/aurora_video.mp4").
+
 # React + Vite
+
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

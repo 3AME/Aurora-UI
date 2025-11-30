@@ -176,13 +176,13 @@ const CallButton = styled.div`
 const IncomingCallUI = ({ onAccept, onDecline, contactName, phoneNumber }) => {
     
     // 假设您的视频位于 public/aurora_video.mp4
-    const videoSrc = '/aurora_video.mp4'; 
+    // const videoSrc = '/aurora_video.mp4'; 
     
     return (
         <CallWrapper>
             {/* 1. 视频背景元素 */}
             <VideoBackground 
-                src={videoSrc} 
+                src="/aurora_video.mp4" 
                 autoPlay 
                 loop 
                 muted // 视频作为背景时通常需要静音
