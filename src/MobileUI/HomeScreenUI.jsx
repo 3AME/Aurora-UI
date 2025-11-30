@@ -58,7 +58,7 @@ const AppGrid = styled.div`
     gap: ${props => getConfig(props).gridGap};
     justify-content: center;
     align-content: center;
-    padding-top: 1.5em;
+    padding-top: 4.5em;
     padding-left: 1em;
     padding-right: 1em;
     padding-bottom: ${props => getConfig(props).dockSize !== '0px' ? '2em' : '1em'};
@@ -122,7 +122,8 @@ const DockContainer = styled.div`
     padding: ${props => getConfig(props).dockSize !== '0px' ? '12px 15px' : '0'};
     align-self: center; /* 居中对齐 */
     // padding: 12px 15px;
-    border-radius: 25px; /* 圆角边框 */
+    padding-bottom: 1em;
+    border-radius: 20px; /* 圆角边框 */
     
     display: flex;
     justify-content: space-around;
@@ -159,7 +160,7 @@ const DockItem = styled(AppIconWrapper)`
 
 // Dock 栏应用 (最常用的 4 个)
 const dockApps = [
-    { id: 'phone', icon: '📞', label: 'Phone' },
+    { id: 'lock', icon: '🔒', label: 'lock' }, 
     { id: 'messages', icon: '💬', label: 'Messages' },
     { id: 'browser', icon: '🌐', label: 'Browser' },
     { id: 'camera', icon: '📷', label: 'Camera' },

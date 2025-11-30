@@ -38,7 +38,7 @@ const AuroraContainer = styled.div`
     overflow: hidden;
     z-index: 1; 
     /*  aurora background changed by kp index*/
-    background: ${props => getAuroraGradient(props.kpIndex)};
+    background: ${props => getAuroraGradient(props.$kpIndex)};
     background-size: 400% 400%; /* 允许动画大幅度移动背景 */
     
 

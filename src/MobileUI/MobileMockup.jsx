@@ -24,8 +24,8 @@ const DeviceConfigs = {
     // 手表 (Apple Watch base - 正方形)
     smartwatch: {
         width: 448, height: 448, 
-        baseWidthVw: 40, // <-- 适当增加手表尺寸
-        maxWidthPx: 350, // <-- 适当增加手表尺寸
+        baseWidthVw: 40, 
+        maxWidthPx: 350, 
         bezelVmin: 5, cornerVmin: 50, screenCornerVmin: 40,
         notchHeight: '0', 
         notchWidth: '0'

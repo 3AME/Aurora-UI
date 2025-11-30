@@ -182,7 +182,7 @@ const IncomingCallUI = ({ onAccept, onDecline, contactName, phoneNumber }) => {
         <CallWrapper>
             {/* 1. 视频背景元素 */}
             <VideoBackground 
-                src="/aurora_video.mp4" 
+                src="/Aurora-UI/aurora_video.mp4" 
                 autoPlay 
                 loop 
                 muted // 视频作为背景时通常需要静音

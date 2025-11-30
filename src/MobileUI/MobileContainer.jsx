@@ -133,7 +133,7 @@ const MobileContainer = () => {
         // 渲染 AuroraEffect 作为所有 UI 的背景层
         return (
             <AuroraEffect kpIndex={kpIndex}>
-                {console.log("Rendering GyroEffect with kpIndex:", test)}
+                {/* {console.log("Rendering GyroEffect with kpIndex:", test)} */}
             {/* <GyroEffect> */}
 
                 {/* 1. App View UI (应用内视图) - 暂未实现完整代码 */}
