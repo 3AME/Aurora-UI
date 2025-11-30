@@ -1,6 +1,5 @@
-import React, { use } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 
 // --- Styled Components ---
 
@@ -175,22 +174,12 @@ const gridApps = [
     { id: 'music', icon: '🎶', label: 'Music' },
     { id: 'photos', icon: '🖼️', label: 'Photos' },
     { id: 'weather', icon: '☁️', label: 'Weather' },
-    { id: 'aurora-gyro', icon: '🌠', label: 'Aurora Gyro' },
 ];
 
 
 // --- Component Logic ---
 
 const HomeScreenUI = ({ onOpenApp, deviceType = 'phone' }) => {
-    const navigate = useNavigate();
-    const handleAppClick = (appId) => {
-        if (appId === 'aurora-gyro') {
-            navigate('/gyro');
-            console.log("Navigating to /gyro");
-        } else if (onOpenApp)   {
-            onOpenApp(appId);
-        }
-    }
 
     // 渲染 App 图标的通用函数
     // const config = DEVICE_CONFIG[deviceType] || DEVICE_CONFIG.phone;
@@ -200,7 +189,7 @@ const HomeScreenUI = ({ onOpenApp, deviceType = 'phone' }) => {
         return (
             <IconComponent
                 key={app.id}
-                onClick={() => handleAppClick(app.id)}
+                onClick={() => onOpenApp(app.id)}
                 $deviceType={deviceType}
             >
                 <Icon $deviceType={deviceType}>{app.icon}</Icon>
